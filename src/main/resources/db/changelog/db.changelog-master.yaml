@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - preConditions:
+      - runningAs:
+          username: root
+
+  - changeSet:
+      id: 1
+      author: benull
+      changes:
+        - createTable:
+            tableName: goodorder
+            columns:
+              - column:
+                  name: order_id
+                  type: varchar(100)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: varchar(100)
+              - column:
+                  name: price
+                  type: decimal
+              - column:
+                  name: order_time
+                  type: datetime

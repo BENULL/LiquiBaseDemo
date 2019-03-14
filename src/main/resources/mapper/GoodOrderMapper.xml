@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mathartsys.demo.dao.GoodOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.mathartsys.demo.po.GoodOrder" >
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, product_id, price, order_time
+  </sql>
+
+  <select id="selectMaxPriceBt" resultType="long" >
+    select max(price) as res
+    from goodorder
+    where product_id= #{productId,jdbcType=VARCHAR}
+    and order_time between #{start,jdbcType=VARCHAR}  and #{end, jdbcType=VARCHAR}
+  </select>
+  <select id="selectMinPriceBt" resultType="long" >
+    select min(price) as res
+    from goodorder
+    where product_id= #{productId,jdbcType=VARCHAR}
+    and order_time between #{start,jdbcType=VARCHAR}  and #{end, jdbcType=VARCHAR}
+  </select>
+  <select id="selectAvgPriceBt" resultType="long" >
+    select avg(price) as res
+    from goodorder
+    where product_id= #{productId,jdbcType=VARCHAR}
+    and order_time between #{start,jdbcType=VARCHAR}  and #{end, jdbcType=VARCHAR}
+  </select>
+  <select id="selectMonthPrice" resultType="map" >
+    select year(order_time) as y,month(order_time) as m ,sum(price) as total from goodorder
+    where product_id= #{productId,jdbcType=VARCHAR}
+    group by year(order_time),month(order_time);
+  </select>
+  <select id="selectMaxMonth" resultType="map" >
+    select year(order_time) as y,
+    month(order_time) as m,sum(price) as total from goodorder
+    where product_id= #{productId,jdbcType=VARCHAR} group by year(order_time),month(order_time) order by total desc limit 1
+  </select>
+  <select id="selectMinMonth" resultType="map" >
+    select year(order_time) as y,
+    month(order_time) as m,sum(price) as total from goodorder
+    where product_id= #{productId,jdbcType=VARCHAR} group by year(order_time),month(order_time) order by total asc limit 1
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goodorder
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from goodorder
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mathartsys.demo.po.GoodOrder" >
+    insert into goodorder (order_id, product_id, price, 
+      order_time)
+    values (#{orderId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{orderTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertByBatch" parameterType="java.util.List">
+    insert into goodorder (order_id, product_id, price,
+    order_time)
+    values
+    <foreach item="item" index="index" collection="list" separator=",">
+      (
+      #{item.orderId},
+      #{item.productId},
+      #{item.price},
+      #{item.orderTime}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.mathartsys.demo.po.GoodOrder" >
+    insert into goodorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mathartsys.demo.po.GoodOrder" >
+    update goodorder
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mathartsys.demo.po.GoodOrder" >
+    update goodorder
+    set product_id = #{productId,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      order_time = #{orderTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>
