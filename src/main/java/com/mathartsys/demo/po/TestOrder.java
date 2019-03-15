@@ -8,11 +8,11 @@ public class TestOrder {
 
     private String productId;
 
-    private BigDecimal price;
+    private Long price;
 
     private Date orderTime;
 
-    public TestOrder(Integer orderId, String productId, BigDecimal price, Date orderTime) {
+    public TestOrder(Integer orderId, String productId, long price, Date orderTime) {
         this.orderId = orderId;
         this.productId = productId;
         this.price = price;
@@ -35,11 +35,11 @@ public class TestOrder {
         this.productId = productId == null ? null : productId.trim();
     }
 
-    public BigDecimal getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
