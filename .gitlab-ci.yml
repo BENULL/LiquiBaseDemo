@@ -1,0 +1,20 @@
+image: maven:latest
+# build package
+stages:
+  - build
+  - package
+# 构建 Job
+build:
+  stage: build
+  tags:
+    - java
+  script:
+    - echo "=============== 开始编译构建任务 ==============="
+    - mvn compile
+package:
+  stage: package
+  tags:
+    - java
+  script:
+    - echo "=============== 开始打包任务  ================="
+    - mvn package -Dmaven.test.skip=true

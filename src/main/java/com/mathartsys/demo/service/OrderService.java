@@ -1,6 +1,7 @@
 package com.mathartsys.demo.service;
 
 import com.mathartsys.demo.common.ServerResponse;
+import com.mathartsys.demo.po.GoodOrder;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,8 @@ public interface OrderService {
     ServerResponse findMinMonth(String productId);
 
     ServerResponse findMonthPrice(String productId);
+
+    void insertDataByBatchMode(List<GoodOrder> data);
 
 
 

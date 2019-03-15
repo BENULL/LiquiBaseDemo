@@ -2,7 +2,10 @@ package com.mathartsys.demo.service.impl;
 
 import com.mathartsys.demo.common.ServerResponse;
 import com.mathartsys.demo.dao.GoodOrderMapper;
+import com.mathartsys.demo.po.GoodOrder;
 import com.mathartsys.demo.service.OrderService;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +61,11 @@ public class OrderServiceImpl implements OrderService {
     public ServerResponse findMonthPrice(String productId) {
         List<Map<String,Object>> res = goodorderMapper.selectMonthPrice(productId);
         return ServerResponse.createBySuccess(res);
+    }
+
+    @Override
+    public void insertDataByBatchMode(List<GoodOrder> data) {
+
     }
 
 }
