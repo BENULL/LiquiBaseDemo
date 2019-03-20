@@ -3,6 +3,7 @@ package com.mathartsys.demo.dao;
 import com.mathartsys.demo.po.TestOrder;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TestOrderMapper {
     int deleteByPrimaryKey(Integer orderId);
@@ -19,4 +20,7 @@ public interface TestOrderMapper {
 
     int insertByBatch(List list);
 
+    List<String> selectProductYear(String productId);
+
+    List<Map<String,Long>> selectMonthSalesByYear(String productId, String y);
 }

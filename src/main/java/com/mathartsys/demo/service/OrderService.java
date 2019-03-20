@@ -24,5 +24,5 @@ public interface OrderService {
     void insertDataByBatchMode(List<GoodOrder> data);
 
 
-
+    ServerResponse findMonthBounce(String productId);
 }

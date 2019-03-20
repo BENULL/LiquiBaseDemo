@@ -49,4 +49,10 @@ public class OrderController {
     public ServerResponse  selectMinMonth(@RequestParam("productId") String productId){
         return orderService.findMinMonth(productId);
     }
+
+    @GetMapping("/month_bounce")
+    @ResponseBody
+    public ServerResponse  selectMonth_BounceByYear(@RequestParam("productId") String productId){
+        return orderService.findMonthBounce(productId);
+    }
 }

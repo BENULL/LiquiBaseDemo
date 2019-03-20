@@ -10,6 +10,18 @@
   <sql id="Base_Column_List" >
     order_id, product_id, price, order_time
   </sql>
+  <select id="selectProductYear" resultType="String" >
+    select
+    year(order_time)
+    from testorder
+    where product_id = #{productId,jdbcType=INTEGER} group by year(order_time)
+  </select>
+  <select id="selectMonthSalesByYear" resultType="map"  >
+    select
+    month(order_time) as m ,count(*) as sales
+    from testorder
+    where product_id = #{productId,jdbcType=INTEGER} and #{y,jdbcType=INTEGER} = year(order_time) group by month(order_time)
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
